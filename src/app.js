@@ -5,10 +5,12 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import { routes } from './routing/routes.js';
+import { JwtMiddleware } from './middlewares/jwt.middleware.js';
 
 const app = express();
 
 app.use(cors());
+app.use(JwtMiddleware);
 app.use(json());
 app.use(routes);
 
