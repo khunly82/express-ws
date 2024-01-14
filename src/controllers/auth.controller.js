@@ -4,9 +4,13 @@ import jwt from 'jsonwebtoken';
 export const AuthController = {
   login: async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ username });
 
-    if(!user || user.password !== password) {
+    if(!user) {
+      user = await User.create({ username, password });
+    }
+
+    if(user.password !== password) {
       res.sendStatus(401);
       return;
     }
