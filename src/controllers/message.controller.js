@@ -13,6 +13,6 @@ export const MessageController = {
       ]
     }).populate('from')
     .populate('to');
-    res.json(messages.map(m => new MessageDTO(m, m.from._id == id)));
+    res.json(messages.map(m => new MessageDTO(m, m.from.id == id)));
   }
 } 
