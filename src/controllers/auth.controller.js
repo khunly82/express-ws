@@ -12,6 +12,9 @@ export const AuthController = {
     }
 
     const { JWT_SECRET, JWT_DURATION } = process.env;
-    res.json({ token: jwt.sign({ username }, JWT_SECRET, { expiresIn: JWT_DURATION }) });
+    res.json({ token: jwt.sign({ 
+      id: user.id,
+      username: user.username
+    }, JWT_SECRET, { expiresIn: JWT_DURATION }) });
   }
 }

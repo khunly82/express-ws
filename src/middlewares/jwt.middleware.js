@@ -9,9 +9,21 @@ export const JwtMiddleware = (req, res, next) => {
     try {
       const {JWT_SECRET} = process.env;
       const payload = jwt.verify(token, JWT_SECRET);
-      req.user = { username: payload.username };
+      req.user = { id: payload.id, username: payload.username };
     } catch(err) { }
   }
 
+  next();
+}
+
+export const IoJwtMiddleware = (socket, next) => {
+  const token = socket.handshake.auth.token;
+  if(token) {
+    try {
+      const {JWT_SECRET} = process.env;
+      const payload = jwt.verify(token, JWT_SECRET);
+      socket.user = { id: payload.id, username: payload.username };
+    } catch(err) { }
+  }
   next();
 }
