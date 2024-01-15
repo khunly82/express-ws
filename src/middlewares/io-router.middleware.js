@@ -3,34 +3,16 @@ import { Server, Socket } from "socket.io";
 export const IoRouter = () => {
   const router = (io) => {
     io.on('connection', (socket) => {
-      router._handle('connection', io, socket);
+      _handle('connection', io, socket);
     });
     return (socket, next) => {
-      router._getEvents().filter(route => route !== 'connection').forEach(route => {
+      _getEventNames().filter(route => route !== 'connection').forEach(route => {
         socket.on(route, (payload) => {
-          router._handle(route, io, socket, payload);
+          _handle(route, io, socket, payload);
         });
       });
       next();
     };
-  }
-
-  router._events = [];
-
-  /**
-   * @param {string} eventName 
-   * @param {Server} io 
-   * @param {Socket} socket 
-   */
-  router._handle = (eventName, io, socket, payload) => {
-    router._events.find(e => e.eventName === eventName)?.handler(io, socket, payload);
-  }
-
-  /**
-   * @returns {Array.<string>}
-   */
-  router._getEvents = () => {
-    return router._events.map(e => e.eventName)
   }
 
   /**
@@ -45,8 +27,25 @@ export const IoRouter = () => {
         middleware(io, socket, payload, () => event.handler(io, socket, payload, chain));
       }
     }}
-    router._events.push(event);
+    _events.push(event);
   }
+
+  const _events = [];
+
+  /**
+   * @param {string} eventName 
+   * @param {Server} io 
+   * @param {Socket} socket 
+   */
+  const _handle = (eventName, io, socket, payload) => {
+    _events.find(e => e.eventName === eventName)?.handler(io, socket, payload);
+  }
+
+  /**
+   * @returns {Array.<string>}
+   */
+  const _getEventNames = () => _events.map(e => e.eventName);
+  
   return router;
 }
 
