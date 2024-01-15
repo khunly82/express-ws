@@ -2,7 +2,7 @@ import { ConnectionHub } from "../hubs/connection.hub.js";
 import { MessageHub } from "../hubs/message.hub.js";
 import { IoRouter } from "../middlewares/io-router.middleware.js";
 
-export const ioRoutes = new IoRouter();
+export const ioRoutes = IoRouter();
 
 ioRoutes.add('connection', ConnectionHub.connect);
 ioRoutes.add('disconnect', ConnectionHub.disconnect);

@@ -14,7 +14,7 @@ const io = new Server(server, { path: '/ws', transports: ['websocket'] });
 // vérifie le token et ajoute user au socket
 io.use(IoJwtMiddleware);
 io.use(IoIsLoggedGuard);
-io.use(ioRoutes.invoke(io));
+io.use(ioRoutes(io));
 
 app.use(cors());
 // vérifie le token et ajoute user à la requète
@@ -25,4 +25,3 @@ app.use(routes);
 server.listen(process.env.APP_PORT, () => {
   console.log('le serveur ecoute le port ' + process.env.APP_PORT);
 });
-
