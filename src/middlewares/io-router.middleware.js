@@ -26,7 +26,7 @@ IoRouter.prototype._getEvents = function() {
  */
 IoRouter.prototype.add = function(eventName, ...middlewares) {
   const event = { eventName, handler: (io, socket, payload, chain) => {
-    chain = (chain ?? [...middlewares]);
+    chain = chain ?? [...middlewares];
     const middleware = chain.shift();
     if(middleware) {
       middleware(io, socket, payload, () => event.handler(io, socket, payload, chain));

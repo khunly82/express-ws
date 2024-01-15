@@ -7,3 +7,4 @@ export const ioRoutes = new IoRouter();
 ioRoutes.add('connection', ConnectionHub.connect);
 ioRoutes.add('disconnect', ConnectionHub.disconnect);
 ioRoutes.add('sendMessage', MessageHub.send);
+ioRoutes.add('notifyIsTyping', MessageHub.notifyIsTyping);

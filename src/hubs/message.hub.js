@@ -13,5 +13,9 @@ export const MessageHub = {
       .populate('to');
     io.to(data.to).emit('newMessage', new MessageDTO(message, false));
     io.to(socket.user.id).emit('newMessage', new MessageDTO(message, true));
+  },
+
+  notifyIsTyping: (io, socket, data) => {
+    io.to(data.to).emit('isTyping', { from: socket.user.id, isTyping: data.isTyping });
   }
 }
