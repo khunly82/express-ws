@@ -3,12 +3,12 @@ import { Server, Socket } from "socket.io";
 export const IoRouter = () => {
   const router = (io) => {
     io.on('connection', (socket) => {
-      _handle('connection', io, socket);
+      _handleEvent('connection', io, socket);
     });
     return (socket, next) => {
       _getEventNames().filter(route => route !== 'connection').forEach(route => {
         socket.on(route, (payload) => {
-          _handle(route, io, socket, payload);
+          _handleEvent(route, io, socket, payload);
         });
       });
       next();
@@ -37,7 +37,7 @@ export const IoRouter = () => {
    * @param {Server} io 
    * @param {Socket} socket 
    */
-  const _handle = (eventName, io, socket, payload) => {
+  const _handleEvent = (eventName, io, socket, payload) => {
     _events.find(e => e.eventName === eventName)?.handler(io, socket, payload);
   }
 
